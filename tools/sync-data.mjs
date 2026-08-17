@@ -21,10 +21,18 @@ const STANDALONES = new Map([
   ['/2025/07/20/particle/', 'Python × Minecraft 粒子特效教程'],
 ]);
 
-async function get(url) {
-  const r = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(20000) });
-  if (r.status !== 200) return null;
-  return await r.text();
+async function get(url, retries = 2) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const r = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(20000) });
+      if (r.status !== 200) return null;
+      return await r.text();
+    } catch (e) {
+      if (i === retries) return null;
+      await new Promise((r) => setTimeout(r, 500 * (i + 1)));
+    }
+  }
+  return null;
 }
 
 function postLinks(html) {
@@ -40,19 +48,23 @@ function postLinks(html) {
 
 async function collectPostUrls() {
   const urls = new Set();
-  // 归档页（分页直到 404）
-  for (let p = 1; p <= 30; p++) {
+  // 归档页：分页直到连续多次失败（404 或网络故障），避免瞬时超时提前中断
+  let fails = 0;
+  for (let p = 1; p <= 30 && fails < 3; p++) {
     const t = await get(`${SITE}/archives/${p === 1 ? '' : `page/${p}/`}`);
-    if (!t) break;
+    if (!t) { fails += 1; continue; }
+    fails = 0;
     for (const u of postLinks(t)) urls.add(u);
     await new Promise((r) => setTimeout(r, 120));
   }
   // 标签页兜底
   const tags = ['Fabric', 'Fabric-1-20', 'Fabric-1-21', 'Forge', 'Forge-1-20-1', 'NeoForge', 'NeoForge-1-21-1', 'Particle', 'FAQ'];
   for (const tag of tags) {
-    for (let p = 1; p <= 12; p++) {
+    fails = 0;
+    for (let p = 1; p <= 12 && fails < 3; p++) {
       const t = await get(`${SITE}/tags/${tag}/${p === 1 ? '' : `page/${p}/`}`);
-      if (!t) break;
+      if (!t) { fails += 1; continue; }
+      fails = 0;
       for (const u of postLinks(t)) urls.add(u);
       await new Promise((r) => setTimeout(r, 120));
     }
@@ -102,7 +114,7 @@ for (const url of urls) {
     continue;
   }
   if (cls.kind === 'other') { other += 1; continue; }
-  const html = await get(url);
+  const html = await get(url, 3);
   if (!html) { console.warn('抓取失败：', url); continue; }
   const title = pageTitle(html) || url.split('/').filter(Boolean).pop();
   let n = coverNumber(html);

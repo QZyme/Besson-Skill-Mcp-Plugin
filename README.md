@@ -19,8 +19,14 @@ besson-tutorials/
 │   ├── preset-files/                #    整预设安装时需要的文件
 │   │   └── preset.yml               #    预设元数据（名称/描述）
 │   └── agent.cordis.yml.snippet     #    往现有预设追加插件行时复制此片段
+├── mcp/                             # ③ MCP 服务器（任何支持 MCP 的客户端都能用）
+│   ├── mcp-server.mjs               #    stdio（默认）或 HTTP（--http）双模式
+│   ├── test-client.mjs              #    stdio 端到端测试
+│   ├── test-http.mjs                #    HTTP 冒烟测试
+│   └── package.json                 #    npm install 后即可运行
 └── tools/
-    └── sync-data.mjs                # 站点数据更新脚本（重新生成 besson-tools.mjs）
+    ├── index_data.json              # 教程索引数据（脚本与 MCP 服务器共用）
+    └── sync-data.mjs                # 站点数据更新脚本（重新生成 index_data.json / besson-tools.mjs）
 ```
 
 ## ① 作为 Claude Code 技能使用
@@ -64,6 +70,33 @@ cp -r skill ~/.claude/skills/besson-tutorials
 
 系列字母：A=Fabric 1.20.1（Java 17）、B=Fabric 1.21.X（Java 21）、C=Forge 1.20.1（Java 17）、
 D=NeoForge 1.21.1（Java 21）、E=Fabric 26.1（Java 25）、F=NeoForge 26.1（待开）。
+
+## ③ 作为 MCP 服务器使用（Claude Desktop / Cursor / 任意 MCP 客户端）
+
+```bash
+cd mcp
+npm install          # 安装 @modelcontextprotocol/sdk
+node mcp-server.mjs  # stdio 模式（默认）
+node mcp-server.mjs --http   # HTTP 模式（环境变量 PORT，默认 3987）
+```
+
+客户端配置示例（stdio）：
+
+```json
+{
+  "mcpServers": {
+    "besson-tutorials": {
+      "command": "node",
+      "args": ["/绝对路径/besson-tutorials/mcp/mcp-server.mjs"],
+      "env": { "BESSON_DATA_PATH": "/绝对路径/besson-tutorials/tools/index_data.json" }
+    }
+  }
+}
+```
+
+HTTP 模式接入地址：`http://127.0.0.1:3987/mcp`（Streamable HTTP，会话由 `mcp-session-id` 头管理）。
+
+自带测试：`npm test`（stdio 端到端）与 `node test-http.mjs`（HTTP 冒烟）。
 
 ## 数据维护（站点更新后）
 
