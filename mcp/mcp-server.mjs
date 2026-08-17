@@ -111,6 +111,11 @@ function text(value) {
   return { content: [{ type: 'text', text: JSON.stringify(value, null, 2) }] };
 }
 
+function dateOf(url) {
+  const m = String(url).match(/\/20(\d\d)\/(\d\d)\/(\d\d)\//);
+  return m ? `20${m[1]}/${m[2]}/${m[3]}` : '';
+}
+
 // ── MCP 服务 ──────────────────────────────────────────────────────────────
 const server = new McpServer({
   name: 'besson-tutorials-mcp',
@@ -171,7 +176,7 @@ server.registerTool('besson_tutorial_series', {
   }
   return text({
     meta: seriesMeta(s.id),
-    chapters: (s.chapters || []).map((c) => ({ chapter: c.n, title: c.title, url: c.url })),
+    chapters: (s.chapters || []).map((c) => ({ chapter: c.n, date: dateOf(c.url), title: c.title, url: c.url })),
   });
 });
 
