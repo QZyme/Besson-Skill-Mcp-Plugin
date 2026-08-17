@@ -7,7 +7,7 @@
 ## 目录结构
 
 ```
-besson-tutorials/
+Besson-Skill-Mcp-Plugin/
 ├── README.md                        # 本文件
 ├── LICENSE                          # CC BY-NC-SA 4.0
 ├── skill/                           # ① Claude Code 技能（也可作为任何 Agent 的知识库）
@@ -87,8 +87,8 @@ node mcp-server.mjs --http   # HTTP 模式（环境变量 PORT，默认 3987）
   "mcpServers": {
     "besson-tutorials": {
       "command": "node",
-      "args": ["/绝对路径/besson-tutorials/mcp/mcp-server.mjs"],
-      "env": { "BESSON_DATA_PATH": "/绝对路径/besson-tutorials/tools/index_data.json" }
+      "args": ["/绝对路径/Besson-Skill-Mcp-Plugin/mcp/mcp-server.mjs"],
+      "env": { "BESSON_DATA_PATH": "/绝对路径/Besson-Skill-Mcp-Plugin/tools/index_data.json" }
     }
   }
 }
