@@ -11,6 +11,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { z } from 'zod';
 import { createServer } from 'node:http';
+import { randomUUID } from 'node:crypto';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -185,7 +186,7 @@ if (httpMode) {
     let transport = sessionId ? transports.get(sessionId) : undefined;
     const isNew = !transport;
     if (!transport) {
-      transport = new StreamableHTTPServerTransport({ sessionIdGenerator: () => crypto.randomUUID() });
+      transport = new StreamableHTTPServerTransport({ sessionIdGenerator: () => randomUUID() });
       await server.connect(transport);
     }
     try {
