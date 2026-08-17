@@ -10,7 +10,7 @@
 Besson-Skill-Mcp-Plugin/
 ├── README.md                        # 本文件
 ├── LICENSE                          # CC BY-NC-SA 4.0
-├── skill/                           # ① Claude Code 技能（也可作为任何 Agent 的知识库）
+├── skill/                           # ① DSH 技能（SKILL 技能文件，也可作为任何 Agent 的知识库）
 │   ├── SKILL.md                     #    技能主文件（六大系列 195 篇索引 + 版本对照 + 选型建议）
 │   └── references/
 │       └── version-matrix.md        #    版本矩阵（JDK/Loader/构建系统，官方源核实）
@@ -29,11 +29,13 @@ Besson-Skill-Mcp-Plugin/
     └── sync-data.mjs                # 站点数据更新脚本（重新生成 index_data.json / besson-tools.mjs）
 ```
 
-## ① 作为 Claude Code 技能使用
+## ① 作为 DSH 技能使用（DeepSeek Harness 的 skills 目录）
 
 ```bash
-# 把 skill/ 目录放到你的 Claude 技能目录（或任意 Agent 的技能目录）
-cp -r skill ~/.claude/skills/besson-tutorials
+# 把 skill/ 目录放到你的 DSH 技能目录（与 agent preset 的 skills/ 同级）
+# 示例（把 besson-tutorials 挂到某个预设下）：
+cp -r skill ~/.dsh/.agent-presets/<你的预设id>/skills/besson-tutorials
+# 或在支持本地 skills 的 Agent 中作为技能目录直接使用
 ```
 
 使用效果：Agent 直接掌握教程站全部 195 篇文章的索引（Fabric 1.20.1/1.21.X/26.1、Forge 1.20.1、NeoForge 1.21.1/26.1），
@@ -71,7 +73,7 @@ cp -r skill ~/.claude/skills/besson-tutorials
 系列字母：A=Fabric 1.20.1（Java 17）、B=Fabric 1.21.X（Java 21）、C=Forge 1.20.1（Java 17）、
 D=NeoForge 1.21.1（Java 21）、E=Fabric 26.1（Java 25）、F=NeoForge 26.1（待开）。
 
-## ③ 作为 MCP 服务器使用（Claude Desktop / Cursor / 任意 MCP 客户端）
+## ③ 作为 MCP 服务器使用（Cline / Cursor / 任意 MCP 客户端）
 
 ```bash
 cd mcp
