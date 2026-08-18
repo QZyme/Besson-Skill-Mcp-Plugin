@@ -1,6 +1,7 @@
-# 北山Besson 教程检索技能 & DSH 插件
+# 北山Besson 教程检索 · skill · mcp · plugin
 
-> 北山Besson（BeiShan_Besson）Minecraft 模组开发教程站 [Tomorrow-Land](https://beishanair.github.io/) 的检索技能/插件
+> 北山Besson（BeiShan_Besson）Minecraft 模组开发教程站 [Tomorrow-Land](https://beishanair.github.io/) 的检索体系：
+> **DSH 技能（skill）· MCP 服务器（mcp）· DSH 插件（plugin）** 三件套
 > 数据同步日期：**2026-08-17**（站点文章 195 篇全覆盖）
 > 站点：https://beishanair.github.io/ · 作者 B站：[@北山Besson](https://space.bilibili.com/489671468) · GitHub：[BeiShanair](https://github.com/BeiShanair)
 
@@ -14,22 +15,22 @@ Besson-Skill-Mcp-Plugin/
 │   ├── SKILL.md                     #    技能主文件（六大系列 195 篇索引 + 版本对照 + 选型建议）
 │   └── references/
 │       └── version-matrix.md        #    版本矩阵（JDK/Loader/构建系统，官方源核实）
-├── dsh-plugin/                      # ② DeepSeek Harness（DSH）插件
-│   ├── besson-tools.mjs             #    插件本体（零依赖，注册 3 个检索工具）
-│   ├── preset-files/                #    整预设安装时需要的文件
-│   │   └── preset.yml               #    预设元数据（名称/描述）
-│   └── agent.cordis.yml.snippet     #    往现有预设追加插件行时复制此片段
-├── mcp/                             # ③ MCP 服务器（任何支持 MCP 的客户端都能用）
+├── mcp/                             # ② MCP 服务器（任何支持 MCP 的客户端都能用）
 │   ├── mcp-server.mjs               #    stdio（默认）或 HTTP（--http）双模式
 │   ├── test-client.mjs              #    stdio 端到端测试
 │   ├── test-http.mjs                #    HTTP 冒烟测试
 │   └── package.json                 #    npm install 后即可运行
+├── dsh-plugin/                      # ③ DeepSeek Harness（DSH）插件
+│   ├── besson-tools.mjs             #    插件本体（零依赖，注册 3 个检索工具）
+│   ├── preset-files/                #    整预设安装时需要的文件
+│   │   └── preset.yml               #    预设元数据（名称/描述）
+│   └── agent.cordis.yml.snippet     #    往现有预设追加插件行时复制此片段
 └── tools/
     ├── index_data.json              # 教程索引数据（脚本与 MCP 服务器共用）
     └── sync-data.mjs                # 站点数据更新脚本（重新生成 index_data.json / besson-tools.mjs）
 ```
 
-## ① 作为 DSH 技能使用（DeepSeek Harness 的 skills 目录）
+## ① 作为 DSH 技能使用（skill）
 
 ```bash
 # 把 skill/ 目录放到你的 DSH 技能目录（与 agent preset 的 skills/ 同级）
@@ -41,7 +42,34 @@ cp -r skill ~/.dsh/.agent-presets/<你的预设id>/skills/besson-tutorials
 使用效果：Agent 直接掌握教程站全部 195 篇文章的索引（Fabric 1.20.1/1.21.X/26.1、Forge 1.20.1、NeoForge 1.21.1/26.1），
 能按"版本 + 主题"直接给出对应教程链接，并内置版本-Java 对照与选型建议。
 
-## ② 作为 DeepSeek Harness（DSH）插件使用
+## ② 作为 MCP 服务器使用（mcp）
+
+```bash
+cd mcp
+npm install          # 安装 @modelcontextprotocol/sdk
+node mcp-server.mjs  # stdio 模式（默认）
+node mcp-server.mjs --http   # HTTP 模式（环境变量 PORT，默认 3987）
+```
+
+客户端配置示例（stdio）：
+
+```json
+{
+  "mcpServers": {
+    "besson-tutorials": {
+      "command": "node",
+      "args": ["/绝对路径/Besson-Skill-Mcp-Plugin/mcp/mcp-server.mjs"],
+      "env": { "BESSON_DATA_PATH": "/绝对路径/Besson-Skill-Mcp-Plugin/tools/index_data.json" }
+    }
+  }
+}
+```
+
+HTTP 模式接入地址：`http://127.0.0.1:3987/mcp`（Streamable HTTP，会话由 `mcp-session-id` 头管理）。
+
+自带测试：`npm test`（stdio 端到端）与 `node test-http.mjs`（HTTP 冒烟）。
+
+## ③ 作为 DeepSeek Harness（DSH）插件使用（plugin）
 
 ### 方式 A：整预设安装（推荐，自带完整编码 Agent）
 
@@ -73,37 +101,10 @@ cp -r skill ~/.dsh/.agent-presets/<你的预设id>/skills/besson-tutorials
 系列字母：A=Fabric 1.20.1（Java 17）、B=Fabric 1.21.X（Java 21）、C=Forge 1.20.1（Java 17）、
 D=NeoForge 1.21.1（Java 21）、E=Fabric 26.1（Java 25）、F=NeoForge 26.1（待开）。
 
-## ③ 作为 MCP 服务器使用（Cline / Cursor / 任意 MCP 客户端）
-
-```bash
-cd mcp
-npm install          # 安装 @modelcontextprotocol/sdk
-node mcp-server.mjs  # stdio 模式（默认）
-node mcp-server.mjs --http   # HTTP 模式（环境变量 PORT，默认 3987）
-```
-
-客户端配置示例（stdio）：
-
-```json
-{
-  "mcpServers": {
-    "besson-tutorials": {
-      "command": "node",
-      "args": ["/绝对路径/Besson-Skill-Mcp-Plugin/mcp/mcp-server.mjs"],
-      "env": { "BESSON_DATA_PATH": "/绝对路径/Besson-Skill-Mcp-Plugin/tools/index_data.json" }
-    }
-  }
-}
-```
-
-HTTP 模式接入地址：`http://127.0.0.1:3987/mcp`（Streamable HTTP，会话由 `mcp-session-id` 头管理）。
-
-自带测试：`npm test`（stdio 端到端）与 `node test-http.mjs`（HTTP 冒烟）。
-
 ## 数据维护（站点更新后）
 
 ```bash
-node tools/sync-data.mjs          # 从站点重新抓取 → 重新生成 dsh-plugin/besson-tools.mjs
+node tools/sync-data.mjs          # 从站点重新抓取 → 重新生成 index_data.json / besson-tools.mjs
 ```
 
 脚本会自动抓取站点归档页/标签页，重建完整索引并注入插件模块。技能文件 `skill/SKILL.md`
