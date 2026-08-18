@@ -160,16 +160,23 @@ export const apply = (ctx) => {
       additionalProperties: true,
     },
     (args) => {
-      const result = search(args && args.query, args && args.limit);
+      const a = args && typeof args === 'object' ? args : {};
+      const rawQuery = a.query != null ? a.query : (a.Query || a.text || a.keyword || a.kw || '');
+      const q = String(rawQuery == null ? '' : rawQuery);
+      const result = search(q, a.limit);
       const lines = [];
       const matches = result.matched || [];
-      lines.push(`「${args.query}」在 北山Besson 教程站 中共命中 ${result.total} 条，展示前 ${matches.length} 条：`);
-      if (matches.length === 0) lines.push('未命中任何章节，建议换关键词，或调用 besson_tutorial_index 查看系列总览，或直接访问 https://beishanair.github.io/2099/12/31/sum/');
+      if (q.trim()) {
+        lines.push(`「${q}」在 北山Besson 教程站 中共命中 ${result.total} 条，展示前 ${matches.length} 条：`);
+        if (matches.length === 0) lines.push('未命中任何章节，建议换关键词，或调用 besson_tutorial_index 查看系列总览，或直接访问 https://beishanair.github.io/2099/12/31/sum/');
+      } else {
+        lines.push(result.hint || '请输入查询关键词（如 "NeoForge 生物群系"、"附魔"）');
+      }
       for (const m of matches) {
         const label = m.series ? `[${m.series} ${m.seriesName} #${m.chapter} / ${m.java}]` : '[独立文章]';
         lines.push(`${label} ${m.title} — ${m.url}`);
       }
-      return { query: String(args && args.query), total: result.total, matched: matches, note: lines.join('\n') };
+      return { query: q, total: result.total, matched: matches, indexed: INDEX.length, note: lines.join('\n') };
     },
   ));
 
@@ -183,21 +190,31 @@ export const apply = (ctx) => {
       properties: {},
       additionalProperties: true,
     },
-    () => ({
-      site: DATA.site,
-      author: DATA.author,
-      synced: DATA.synced,
-      totalArticlesOnSite: 195,
-      series: DATA.series.map((s) => seriesMeta(s.id)),
-      standalones: DATA.standalones,
-      tutorialIndexPage: 'https://beishanair.github.io/2099/12/31/sum/',
-      ecosystem: {
-        currentMinecraft: '26.2（正式版；26.1.1/26.1.2 已发布，26.3 快照开发中）',
-        fabricLoader: '0.19.3',
-        neoforge261: '官方已适配（2026-03）但教程站 F 系列待开',
-        note: '教程总汇页（sum）部分章节列表滞后，以实际文章为准',
-      },
-    }),
+    () => {
+      const totalChapters = DATA.series.reduce((n, s) => n + (s.chapters || []).length, 0);
+      const firstTitle = (DATA.series[0] && DATA.series[0].chapters && DATA.series[0].chapters[0] && DATA.series[0].chapters[0].title) || '';
+      return {
+        site: DATA.site,
+        author: DATA.author,
+        synced: DATA.synced,
+        totalArticlesOnSite: 195,
+        series: DATA.series.map((s) => seriesMeta(s.id)),
+        standalones: DATA.standalones,
+        dataHealth: {
+          totalChapters: totalChapters,
+          standalones: (DATA.standalones || []).length,
+          sampleTitle: firstTitle,
+          note: '若 sampleTitle 是乱码或 totalChapters=0，说明插件文件编码/数据损坏，请从 Release 重装',
+        },
+        tutorialIndexPage: 'https://beishanair.github.io/2099/12/31/sum/',
+        ecosystem: {
+          currentMinecraft: '26.2（正式版；26.1.1/26.1.2 已发布，26.3 快照开发中）',
+          fabricLoader: '0.19.3',
+          neoforge261: '官方已适配（2026-03）但教程站 F 系列待开',
+          note: '教程总汇页（sum）部分章节列表滞后，以实际文章为准',
+        },
+      };
+    },
   ));
 
   // 工具三：单系列完整章节列表
