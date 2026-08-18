@@ -115,6 +115,18 @@ node tools/sync-data.mjs          # 从站点重新抓取 → 重新生成 index
 脚本会自动抓取站点归档页/标签页，重建完整索引并注入插件模块。技能文件 `skill/SKILL.md`
 的表格可对照生成的 `index_data.json` 手工同步（或等作者更新教程总汇页）。
 
+## 故障排查（插件"检索不到内容/返回 0 条"）
+
+1. 用仓库 `dsh-plugin/besson-tools.mjs`（或 Release 最新 `besson-dsh-plugin-v1.0.0.zip`）
+   覆盖 `~/.dsh/.agent-presets/<你的预设id>/besson-tools.mjs`
+2. **重启 DSH**（预设常驻挂载会缓存旧文件，必须重启才加载新文件）
+3. 新会话 → 调 `besson_tutorial_index`，看返回的 **`dataHealth`**：
+   - `totalChapters = 190` 且 `sampleTitle` 是正常中文 → 数据完好；之前 0 条多为旧版/模型传参差异，新版已自动兼容
+   - `totalChapters = 0` 或 `sampleTitle` 乱码（如 `寮€鍙戠幆澧?`）→ 安装时文件编码被破坏，覆盖上面的文件即可修复
+4. 再调 `besson_tutorial_lookup`（如 `query: "流体"`）→ 应命中 4 条
+
+> 提示：`besson_tutorial_lookup` 返回含 `indexed` 字段（正常应为 194），可即时确认数据是否加载。
+
 ## 已知站点注意事项（内置在数据中）
 
 - 站点「教程总汇」页部分章节列表滞后，**以实际文章为准**
