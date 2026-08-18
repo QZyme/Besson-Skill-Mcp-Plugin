@@ -21,7 +21,7 @@ Besson-Skill-Mcp-Plugin/
 │   └── references/
 │       └── version-matrix.md        #    版本矩阵（JDK/Loader/构建系统，官方源核实）
 ├── mcp/                             # ② MCP 服务器（任何支持 MCP 的客户端都能用）
-│   ├── mcp-server.mjs               #    stdio（默认）或 HTTP（--http）双模式
+│   ├── mcp-server.mjs               #    stdio（默认）或 HTTP（--http）双模式，4 个工具（含正文抓取）
 │   ├── test-client.mjs              #    stdio 端到端测试
 │   ├── test-http.mjs                #    HTTP 冒烟测试
 │   └── package.json                 #    npm install 后即可运行
@@ -55,6 +55,18 @@ npm install          # 安装 @modelcontextprotocol/sdk
 node mcp-server.mjs  # stdio 模式（默认）
 node mcp-server.mjs --http   # HTTP 模式（环境变量 PORT，默认 3987）
 ```
+
+MCP 服务器提供 4 个工具：
+
+| 工具 | 作用 | 示例参数 |
+|------|------|----------|
+| `besson_tutorial_lookup` | 关键词检索章节 | `query: "NeoForge 生物群系"`, `limit: 8` |
+| `besson_tutorial_index` | 系列总览 + 生态现状 | 无参数 |
+| `besson_tutorial_series` | 单系列全部章节 | `series: "D"` |
+| `besson_tutorial_fetch` | **抓取正文**（可自动解析关键词） | `query: "流体"` 或 `url: "…/nf121/33fluid/"`，`maxChars: 6000` |
+
+`besson_tutorial_fetch` 例：传 `query` 时按本地索引自动解析最匹配的一篇并抓取；传 `url` 时直接抓取该页。
+返回标题、正文纯文本（含代码块）与字节数；仅接受 `beishanair.github.io` 站内链接，可用 `maxChars` 限制返回长度。
 
 客户端配置示例（stdio）：
 
@@ -93,18 +105,21 @@ HTTP 模式接入地址：`http://127.0.0.1:3987/mcp`（Streamable HTTP，会话
 
 1. 把 `besson-tools.mjs` 复制到你的预设目录（与 `agent.cordis.yml` 同级）
 2. 在 `agent.cordis.yml` 末尾追加 `agent.cordis.yml.snippet` 中的内容
-3. 重启会话即可拥有 3 个工具
+3. 重启会话即可拥有 4 个工具（v1.1.0）
 
 ### 工具清单
 
 | 工具 | 作用 | 示例参数 |
 |------|------|----------|
 | `besson_tutorial_lookup` | 关键词检索章节（版本/Loader/章节号/主题） | `query: "NeoForge 生物群系"`, `limit: 8` |
-| `besson_tutorial_index` | 六大系列总览 + Java 版本 + 缺号 + 生态现状 | 无参数 |
+| `besson_tutorial_index` | 六大系列总览 + 版本 + Java + 缺号 + 生态现状 | 无参数 |
 | `besson_tutorial_series` | 单系列（A-F）全部章节列表 | `series: "D"` |
+| `besson_tutorial_fetch` | **抓取教程正文**（可按关键词自动解析或直接给 url，仅限站内链接） | `query: "附魔"` 或 `url: "…33fluid/"`, `maxChars: 6000` |
 
 系列字母：A=Fabric 1.20.1（Java 17）、B=Fabric 1.21.X（Java 21）、C=Forge 1.20.1（Java 17）、
 D=NeoForge 1.21.1（Java 21）、E=Fabric 26.1（Java 25）、F=NeoForge 26.1（待开）。
+
+> 提示：`besson_tutorial_index` 返回 `version` 字段（当前 1.1.0），可确认运行版本。
 
 ## 数据维护（站点更新后）
 

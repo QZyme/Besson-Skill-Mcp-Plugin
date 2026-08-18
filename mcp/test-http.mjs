@@ -28,12 +28,17 @@ try {
   });
   console.log('initialize ->', init.status, 'session:', init.session ? 'OK' : '无');
   const tools = await rpc(init.session, { jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} });
-  console.log('tools/list ->', tools.status, tools.text.includes('besson_tutorial_lookup') ? '包含 3 工具 ✓' : tools.text.slice(0, 200));
+  console.log('tools/list ->', tools.status, tools.text.includes('besson_tutorial_lookup') && tools.text.includes('besson_tutorial_fetch') ? '包含 4 工具（含 fetch）✓' : tools.text.slice(0, 300));
   const call = await rpc(init.session, {
     jsonrpc: '2.0', id: 3, method: 'tools/call',
     params: { name: 'besson_tutorial_lookup', arguments: { query: '附魔' } },
   });
   console.log('tools/call ->', call.status, call.text.includes('enchantment') ? '返回正确结果 ✓' : call.text.slice(0, 300));
+  const fetchCall = await rpc(init.session, {
+    jsonrpc: '2.0', id: 4, method: 'tools/call',
+    params: { name: 'besson_tutorial_fetch', arguments: { query: '附魔', maxChars: 400 } },
+  });
+  console.log('tools/call fetch ->', fetchCall.status, fetchCall.text.includes('enchantment') ? '返回正文 ✓' : fetchCall.text.slice(0, 300));
 } catch (e) {
   console.log('HTTP 测试失败:', e.message);
 } finally {

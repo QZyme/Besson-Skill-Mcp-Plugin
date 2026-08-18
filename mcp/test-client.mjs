@@ -25,6 +25,12 @@ const cases = [
   ['besson_tutorial_index', {}],
   ['besson_tutorial_series', { series: 'E' }],
   ['besson_tutorial_series', { series: 'zz' }],
+  // 正文抓取：按关键词自动解析
+  ['besson_tutorial_fetch', { query: '附魔', maxChars: 500 }],
+  // 正文抓取：直接给链接
+  ['besson_tutorial_fetch', { url: 'https://beishanair.github.io/2026/08/14/nf121/33fluid/', maxChars: 400 }],
+  // 正文抓取：非法链接（应被拒绝）
+  ['besson_tutorial_fetch', { url: 'https://example.com/evil', maxChars: 300 }],
 ];
 for (const [name, args] of cases) {
   const res = await client.callTool({ name, arguments: args });

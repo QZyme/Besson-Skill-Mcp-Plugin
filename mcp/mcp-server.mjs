@@ -116,10 +116,44 @@ function dateOf(url) {
   return m ? `20${m[1]}/${m[2]}/${m[3]}` : '';
 }
 
+// ── 正文抓取与提取（besson_tutorial_fetch 使用）───────────────────────────
+function htmlToText(html) {
+  const container = html.match(/<article[\s>][\s\S]*?<\/article>/i)
+    || html.match(/<main[\s>][\s\S]*?<\/main>/i)
+    || html.match(/<div[^>]*class="[^"]*(?:post-content|entry-content|page-content)[^"]*"[\s>][\s\S]*?<\/div>/i);
+  const frag = container ? container[0] : html;
+  return frag
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<(?:h[1-6])[^>]*>/gi, '\n\n## ')
+    .replace(/<p[^>]*>/gi, '\n\n')
+    .replace(/<li[^>]*>/gi, '\n- ')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<pre[^>]*>/gi, '\n\n```\n')
+    .replace(/<\/pre>/gi, '\n```\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;|&#x27;/g, "'").replace(/&#x2F;/g, '/')
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCharCode(parseInt(d, 10)))
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+async function fetchArticle(url) {
+  const r = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(30000) });
+  if (!r.ok) return { error: `HTTP ${r.status}` };
+  const html = await r.text();
+  const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1]?.trim() || '';
+  return { title, text: htmlToText(html), bytes: html.length };
+}
+
 // ── MCP 服务 ──────────────────────────────────────────────────────────────
 const server = new McpServer({
   name: 'besson-tutorials-mcp',
-  version: '1.0.0',
+  version: '1.1.0',
 });
 
 server.registerTool('besson_tutorial_lookup', {
@@ -178,6 +212,49 @@ server.registerTool('besson_tutorial_series', {
     meta: seriesMeta(s.id),
     chapters: (s.chapters || []).map((c) => ({ chapter: c.n, date: dateOf(c.url), title: c.title, url: c.url })),
   });
+});
+
+server.registerTool('besson_tutorial_fetch', {
+  title: '抓取北山Besson 教程正文',
+  description: '抓取教程站一篇文章的正文。直接传 url（来自 lookup/series/index 返回的链接）即可抓取；' +
+    '或只传 query，将按本地索引自动解析最匹配的一篇再抓取。返回标题与正文纯文本（含代码块、图片为引用链接）。' +
+    '正文可能较长，可用 maxChars 控制返回长度。',
+  inputSchema: {
+    url: z.string().optional().describe('教程文章 URL（仅限 beishanair.github.io 站点内）'),
+    query: z.string().optional().describe('检索关键词，未提供 url 时用于自动解析最匹配的一篇'),
+    maxChars: z.number().int().min(200).max(30000).optional().describe('正文最长返回字符数（默认 6000）'),
+  },
+}, async ({ url: urlArg, query, maxChars }) => {
+  const cap = Math.max(200, Math.min(30000, Number.isFinite(maxChars) ? Math.floor(maxChars) : 6000));
+  let target = String(urlArg || '').trim();
+  let resolved = null;
+  if (!target) {
+    const q = String(query || '').trim();
+    if (!q) return text({ error: '至少要提供 url 或 query 之一' });
+    const r = search(q, 1);
+    if (!r.matched.length) return text({ error: `未按「${q}」解析到教程，请先调用 besson_tutorial_lookup` });
+    resolved = r.matched[0];
+    target = resolved.url;
+  }
+  if (!/^https?:\/\/beishanair\.github\.io\/.*/.test(target)) {
+    return text({ error: '仅支持本站（beishanair.github.io）内的教程链接', url: target });
+  }
+  try {
+    const art = await fetchArticle(target);
+    if (art.error) return text({ error: art.error, url: target });
+    return text({
+      url: target,
+      ...(resolved ? { resolvedFrom: `「${query}」→ [${resolved.series} ${resolved.seriesName} #${resolved.chapter}] ${resolved.title}` } : {}),
+      title: art.title,
+      bytes: art.bytes,
+      chars: art.text.length,
+      text: art.text.slice(0, cap),
+      truncated: art.text.length > cap,
+      fetchedAt: new Date().toISOString(),
+    });
+  } catch (e) {
+    return text({ error: '抓取失败: ' + ((e && e.message) || e), url: target });
+  }
 });
 
 // ── 传输 ──────────────────────────────────────────────────────────────────

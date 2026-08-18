@@ -6,6 +6,7 @@ const DATA = {"site":"https://beishanair.github.io/","author":"BeiShan_Besson","
 
 const JAVA = { A: 'Java 17', B: 'Java 21', C: 'Java 17', D: 'Java 21', E: 'Java 25', F: 'Java 25' };
 const GAPS = { A: [], B: ['54（本站无 #54）'], C: ['22-27（未发布）'], D: ['13-24（未发布）'], E: [], F: ['全系列待开'] };
+const VERSION = '1.1.0';
 
 function dateOf(url) {
   const m = url.match(/\/20(\d\d)\/(\d\d)\/(\d\d)\//);
@@ -116,8 +117,44 @@ function seriesMeta(id) {
   };
 }
 
-function renderText(value) {
+// 注意：DSH ToolRuntime 调用 output.render(args, value) —— 第一个实参是调用参数，
+// 第二个才是 execute 的返回值。不能写成交叉引用，否则模型看到的是空白/参数回显。
+function renderText(_args, value) {
   return [{ type: 'text', text: JSON.stringify(value, null, 2) }];
+}
+
+// ── 正文抓取与提取（besson_tutorial_fetch 使用；与 MCP 版一致）──────────────
+function htmlToText(html) {
+  const container = html.match(/<article[\s>][\s\S]*?<\/article>/i)
+    || html.match(/<main[\s>][\s\S]*?<\/main>/i)
+    || html.match(/<div[^>]*class="[^"]*(?:post-content|entry-content|page-content)[^"]*"[\s>][\s\S]*?<\/div>/i);
+  const frag = container ? container[0] : html;
+  return frag
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<(?:h[1-6])[^>]*>/gi, '\n\n## ')
+    .replace(/<p[^>]*>/gi, '\n\n')
+    .replace(/<li[^>]*>/gi, '\n- ')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<pre[^>]*>/gi, '\n\n```\n')
+    .replace(/<\/pre>/gi, '\n```\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;|&#x27;/g, "'").replace(/&#x2F;/g, '/')
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCharCode(parseInt(d, 10)))
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+async function fetchArticle(url) {
+  const r = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(30000) });
+  if (!r.ok) return { error: `HTTP ${r.status}` };
+  const html = await r.text();
+  const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1]?.trim() || '';
+  return { title, text: htmlToText(html), bytes: html.length };
 }
 
 /** 组装 raw ToolDefinition（parameters/output 均为受支持的 JSON Schema 子集） */
@@ -197,6 +234,7 @@ export const apply = (ctx) => {
         site: DATA.site,
         author: DATA.author,
         synced: DATA.synced,
+        version: VERSION,
         totalArticlesOnSite: 195,
         series: DATA.series.map((s) => seriesMeta(s.id)),
         standalones: DATA.standalones,
@@ -254,6 +292,56 @@ export const apply = (ctx) => {
           url: c.url,
         })),
       };
+    },
+  ));
+
+  // 工具四：抓取教程正文（与 MCP 版能力对齐）
+  ctx.tools.register(defineBessonTool(
+    'besson_tutorial_fetch',
+    '抓取北山Besson 教程站一篇文章的正文。直接传 url（来自 lookup/series/index 返回的链接）即可抓取；' +
+      '或只传 query，将按本地索引自动解析最匹配的一篇再抓取。返回标题与正文纯文本（含代码块）。' +
+      '正文可能较长，可用 maxChars 控制返回长度；仅接受 beishanair.github.io 站内链接。',
+    {
+      type: 'object',
+      properties: {
+        url: { type: 'string', description: '教程文章 URL（仅限 beishanair.github.io 站点内）' },
+        query: { type: 'string', description: '检索关键词，未提供 url 时用于自动解析最匹配的一篇' },
+        maxChars: { type: 'integer', description: '正文最长返回字符数（200-30000，默认 6000）' },
+      },
+      additionalProperties: true,
+    },
+    async (args) => {
+      const a = args && typeof args === 'object' ? args : {};
+      const cap = Math.max(200, Math.min(30000, Number.isFinite(a.maxChars) ? Math.floor(a.maxChars) : 6000));
+      let target = String(a.url || '').trim();
+      let resolved = null;
+      if (!target) {
+        const q = String(a.query || '').trim();
+        if (!q) return { error: '至少要提供 url 或 query 之一', version: VERSION };
+        const r = search(q, 1);
+        if (!r.matched.length) return { error: `未按「${q}」解析到教程，请先调用 besson_tutorial_lookup`, version: VERSION };
+        resolved = r.matched[0];
+        target = resolved.url;
+      }
+      if (!/^https?:\/\/beishanair\.github\.io\/.*/.test(target)) {
+        return { error: '仅支持本站（beishanair.github.io）内的教程链接', url: target, version: VERSION };
+      }
+      try {
+        const art = await fetchArticle(target);
+        if (art.error) return { error: art.error, url: target, version: VERSION };
+        return {
+          url: target,
+          ...(resolved ? { resolvedFrom: `「${a.query}」→ [${resolved.series} ${resolved.seriesName} #${resolved.chapter}] ${resolved.title}` } : {}),
+          title: art.title,
+          bytes: art.bytes,
+          chars: art.text.length,
+          text: art.text.slice(0, cap),
+          truncated: art.text.length > cap,
+          version: VERSION,
+        };
+      } catch (e) {
+        return { error: '抓取失败: ' + ((e && e.message) || e), url: target, version: VERSION };
+      }
     },
   ));
 };
