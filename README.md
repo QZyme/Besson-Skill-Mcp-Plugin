@@ -1,5 +1,10 @@
 # 北山Besson 教程检索 · skill · mcp · plugin
 
+[![release](https://img.shields.io/github/v/release/QZyme/Besson-Skill-Mcp-Plugin)](https://github.com/QZyme/Besson-Skill-Mcp-Plugin/releases/latest)
+[![license](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-4c1)](LICENSE)
+[![last commit](https://img.shields.io/github/last-commit/QZyme/Besson-Skill-Mcp-Plugin)](https://github.com/QZyme/Besson-Skill-Mcp-Plugin/commits/main)
+[![site](https://img.shields.io/badge/site-Tomorrow--Land-0078d7)](https://beishanair.github.io/)
+
 > 北山Besson（BeiShan_Besson）Minecraft 模组开发教程站 [Tomorrow-Land](https://beishanair.github.io/) 的检索体系：
 > **DSH 技能（skill）· MCP 服务器（mcp）· DSH 插件（plugin）** 三件套
 > 数据同步日期：**2026-08-17**（站点文章 195 篇全覆盖）
