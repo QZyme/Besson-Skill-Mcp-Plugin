@@ -105,7 +105,7 @@ HTTP 模式接入地址：`http://127.0.0.1:3987/mcp`（Streamable HTTP，会话
 
 1. 把 `besson-tools.mjs` 复制到你的预设目录（与 `agent.cordis.yml` 同级）
 2. 在 `agent.cordis.yml` 末尾追加 `agent.cordis.yml.snippet` 中的内容
-3. 重启会话即可拥有 4 个工具（v1.1.0）
+3. 重启会话即可拥有 4 个工具（v1.1.1）
 
 ### 工具清单
 
@@ -119,7 +119,7 @@ HTTP 模式接入地址：`http://127.0.0.1:3987/mcp`（Streamable HTTP，会话
 系列字母：A=Fabric 1.20.1（Java 17）、B=Fabric 1.21.X（Java 21）、C=Forge 1.20.1（Java 17）、
 D=NeoForge 1.21.1（Java 21）、E=Fabric 26.1（Java 25）、F=NeoForge 26.1（待开）。
 
-> 提示：`besson_tutorial_index` 返回 `version` 字段（当前 1.1.0），可确认运行版本。
+> 提示：`besson_tutorial_index` 返回 `version` 字段（当前 1.1.1），可确认运行版本。
 
 ## 数据维护（站点更新后）
 

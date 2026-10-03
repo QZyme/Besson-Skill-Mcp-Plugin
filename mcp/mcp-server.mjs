@@ -153,7 +153,7 @@ async function fetchArticle(url) {
 // ── MCP 服务 ──────────────────────────────────────────────────────────────
 const server = new McpServer({
   name: 'besson-tutorials-mcp',
-  version: '1.1.0',
+  version: '1.1.1',
 });
 
 server.registerTool('besson_tutorial_lookup', {

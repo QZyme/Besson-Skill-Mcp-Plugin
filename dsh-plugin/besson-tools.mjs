@@ -6,7 +6,7 @@ const DATA = {"site":"https://beishanair.github.io/","author":"BeiShan_Besson","
 
 const JAVA = { A: 'Java 17', B: 'Java 21', C: 'Java 17', D: 'Java 21', E: 'Java 25', F: 'Java 25' };
 const GAPS = { A: [], B: ['54（本站无 #54）'], C: ['22-27（未发布）'], D: ['13-24（未发布）'], E: [], F: ['全系列待开'] };
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 
 function dateOf(url) {
   const m = url.match(/\/20(\d\d)\/(\d\d)\/(\d\d)\//);
