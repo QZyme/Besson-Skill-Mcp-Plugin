@@ -72,15 +72,39 @@ async function collectPostUrls() {
   return [...urls];
 }
 
+/** 站点标题里的 HTML 实体（&amp; 等）解码。 */
+function decodeEntities(text) {
+  const named = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
+  return text
+    .replace(/&#x2F;/gi, '/')
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&([a-zA-Z]+);/g, (all, name) => named[name.toLowerCase()] ?? all);
+}
+
+/**
+ * 站点会在标题尾部追加系列标签，例如「 1.20 Fabric 长线教程计划」「 1.21.2 Fabric」。
+ * 这与系列元数据（mc / loader / name）重复，会污染检索结果，因此剥离。
+ */
+const SERIES_SUFFIX = /\s*\d+(?:\.\d+)*\s+(?:Fabric|Forge|NeoForge)(?:\s*长线教程计划)?\s*$/;
+
 function pageTitle(html) {
   const m = html.match(/<title>([^<]*)<\/title>/);
   if (!m) return '';
-  return m[1].replace(/\s*\|\s*Tomorrow-Land\s*$/i, '').replace(/&#x2F;/g, '/').trim();
+  return decodeEntities(m[1]).replace(/\s*\|\s*Tomorrow-Land\s*$/i, '').replace(SERIES_SUFFIX, '').trim();
 }
 
+/**
+ * 封面编号即章节号。站点封面命名并不统一，同一系列内混用：
+ *   3 位补零   053.jpg      （B 系列较早的章节）
+ *   4 位补零   0055.jpg     （B 系列较晚的章节，以及 A/C/D/E 全部）
+ *   带子编号   0002-1.jpg   （补充章节，对应章节号 "2-1"）
+ * 因此接受 1~4 位数字并保留 `-子编号`；取不到返回 null，由调用方兜底。
+ */
 function coverNumber(html) {
-  const m = html.match(/property="og:image"\s+content="[^"]*\/pic\/[^/]+\/(\d{4})\.(?:jpg|png|webp)"/);
-  return m ? parseInt(m[1], 10) : NaN;
+  const m = html.match(/property="og:image"\s+content="[^"]*\/pic\/[^/]+\/(\d{1,4})(?:-(\d+))?\.(?:jpg|png|webp)"/);
+  if (!m) return null;
+  const num = parseInt(m[1], 10);
+  return m[2] === undefined ? String(num) : `${num}-${m[2]}`;
 }
 
 function classify(url) {
@@ -118,12 +142,13 @@ for (const url of urls) {
   if (!html) { console.warn('抓取失败：', url); continue; }
   const title = pageTitle(html) || url.split('/').filter(Boolean).pop();
   let n = coverNumber(html);
-  if (!Number.isFinite(n)) {
-    // 兜底：从 URL slug 提取章节号（A/B/D 的部分 slug 带编号）
+  if (n === null) {
+    // 兜底：从 URL slug 提取章节号（部分 slug 自带编号，如 1first / 12config）
     const m = url.match(/\/(\d{1,2})[a-z][a-z0-9]*\/$/);
-    n = m ? parseInt(m[1], 10) : NaN;
+    n = m ? m[1] : '';
+    if (n === '') console.warn('章节号缺失：', url);
   }
-  SERIES[cls.series].chapters.push({ n: String(n), title, url });
+  SERIES[cls.series].chapters.push({ n, title, url });
   await new Promise((r) => setTimeout(r, 80));
 }
 

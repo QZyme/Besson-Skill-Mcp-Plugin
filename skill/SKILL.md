@@ -14,7 +14,7 @@ metadata:
 >
 > 所有教程均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可
 >
-> **最后与站点同步校验:** 2026-08-17（文章总数 195）
+> **最后与站点同步校验:** 2026-10-03（文章总数 195）
 
 使用本技能时，用户提到的需求对应到下方具体的教程系列和章节，可以直接输出对应的链接和指引。
 
@@ -35,7 +35,7 @@ metadata:
 > （Forge 1.20.1 缺 #22~#27；NeoForge 1.21.1 缺 #13~#24；Fabric 1.21.X 本站无 #54）。
 > 如用户提到的章节号落在空缺区间，说明该章节尚未发布，建议推荐相邻章节或提示等待更新。
 
-### 🌐 社区对照与版本现状（2026-08-17 官方源核实）
+### 🌐 社区对照与版本现状（2026-10-03 官方源核实）
 
 > 本节为对教程站内容的独立核对与建议，来源：Mojang 官方版本清单（piston-meta version manifest v2）、Fabric 官方元数据（meta.fabricmc.net）、NeoForge 官网新闻、Forge 下载页。
 
@@ -96,39 +96,39 @@ metadata:
 | 7 | 数据生成 | [→](https://beishanair.github.io/2025/04/25/120/datagen120/) |
 | 8 | 食物 | [→](https://beishanair.github.io/2025/05/06/120/food120/) |
 | 9 | 燃料 | [→](https://beishanair.github.io/2025/05/06/120/fuel120/) |
-| 10 | Tags | [→](https://beishanair.github.io/2025/05/07/120/tag120/) |
-| 11 | Jar构建 | [→](https://beishanair.github.io/2025/05/07/120/jar120/) |
+| 10 | Tags·标签 | [→](https://beishanair.github.io/2025/05/07/120/tag120/) |
+| 11 | Jar打包 | [→](https://beishanair.github.io/2025/05/07/120/jar120/) |
 | 12 | 建材类方块 | [→](https://beishanair.github.io/2025/05/07/120/build120/) |
-| 13 | DeepSeek 部署 | [→](https://beishanair.github.io/2025/05/08/120/ds120/) |
+| 13 | DeepSeek IDEA部署 | [→](https://beishanair.github.io/2025/05/08/120/ds120/) |
 | 14 | 工具 | [→](https://beishanair.github.io/2025/05/08/120/tool120/) |
-| 15 | 镐 + 斧（自定义工具） | [→](https://beishanair.github.io/2025/05/08/120/pickaxe120/) |
+| 15 | 自定义工具 | [→](https://beishanair.github.io/2025/05/08/120/pickaxe120/) |
 | 16 | 工具信息 | [→](https://beishanair.github.io/2025/05/09/120/tooltip120/) |
 | 17 | 盔甲 | [→](https://beishanair.github.io/2025/05/09/120/armor120/) |
-| 18 | 全套盔甲增益效果 | [→](https://beishanair.github.io/2025/05/13/120/armoreffect120/) |
+| 18 | 全套盔甲效果 | [→](https://beishanair.github.io/2025/05/13/120/armoreffect120/) |
 | 19 | 马铠 | [→](https://beishanair.github.io/2025/05/13/120/horsearmor120/) |
 | 20 | 作物 | [→](https://beishanair.github.io/2025/05/13/120/crop120/) |
 | 21 | 多方块作物 | [→](https://beishanair.github.io/2025/05/14/120/twohighcrop120/) |
-| 22 | 自定义村民交易 | [→](https://beishanair.github.io/2025/05/14/120/trade120/) |
+| 22 | 村民交易 | [→](https://beishanair.github.io/2025/05/14/120/trade120/) |
 | 23 | 自定义村民 | [→](https://beishanair.github.io/2025/05/15/120/villager120/) |
-| 24 | 自定义声音 | [→](https://beishanair.github.io/2025/05/16/120/sound120/) |
+| 24 | 声音事件 | [→](https://beishanair.github.io/2025/05/16/120/sound120/) |
 | 25 | 音乐唱片 | [→](https://beishanair.github.io/2025/05/16/120/musicdisc120/) |
-| 26 | Blockbench 方块/物品 | [→](https://beishanair.github.io/2025/05/16/120/blockbench120/) |
+| 26 | Blockbench模型 | [→](https://beishanair.github.io/2025/05/16/120/blockbench120/) |
 | 27 | 方块朝向 | [→](https://beishanair.github.io/2025/05/19/120/facing120/) |
 | 28 | 沙发类方块 | [→](https://beishanair.github.io/2025/05/19/120/sofa120/) |
 | 29 | 可坐实体 | [→](https://beishanair.github.io/2025/05/19/120/seat120/) |
 | 30 | 光源方块 | [→](https://beishanair.github.io/2025/05/20/120/light120/) |
-| 31 | 床类方块 | [→](https://beishanair.github.io/2025/05/20/120/bed120/) |
+| 31 | 床 | [→](https://beishanair.github.io/2025/05/20/120/bed120/) |
 | 32 | 柱类方块 | [→](https://beishanair.github.io/2025/05/20/120/pillar120/) |
 | 33 | 栅栏类方块 | [→](https://beishanair.github.io/2025/05/21/120/fence120/) |
 | 34 | 储物类方块 | [→](https://beishanair.github.io/2025/05/21/120/chest120/) |
 | 35 | 流体 | [→](https://beishanair.github.io/2025/06/12/120/fluid120/) |
 | 36 | 木头 | [→](https://beishanair.github.io/2025/07/05/120/wood120/) |
-| 37 | Gradle 配置文件 | [→](https://beishanair.github.io/2025/07/06/120/gradle/) |
+| 37 | Gradle配置文件 | [→](https://beishanair.github.io/2025/07/06/120/gradle/) |
 | 38 | 告示牌 | [→](https://beishanair.github.io/2025/07/06/120/sign120/) |
 | 39 | 船 | [→](https://beishanair.github.io/2025/07/07/120/boat120/) |
 | 40 | 树 | [→](https://beishanair.github.io/2025/07/15/120/tree120/) |
 | 41 | 树的世界生成 | [→](https://beishanair.github.io/2025/07/17/120/treegen120/) |
-| 42 | 花和盆栽花 | [→](https://beishanair.github.io/2025/07/17/120/flower120/) |
+| 42 | 花 & 盆栽花 | [→](https://beishanair.github.io/2025/07/17/120/flower120/) |
 | 43 | 花的世界生成 | [→](https://beishanair.github.io/2025/07/17/120/flowergen120/) |
 | 44 | 矿物的世界生成 | [→](https://beishanair.github.io/2025/07/18/120/oregen120/) |
 | 45 | 耐久合成 | [→](https://beishanair.github.io/2025/07/18/120/reciperemainder/) |
@@ -138,7 +138,7 @@ metadata:
 | 49 | GeckoLib | [→](https://beishanair.github.io/2026/05/21/120/gecko/) |
 | 50 | 矿机 | [→](https://beishanair.github.io/2026/05/22/120/rig/) |
 | 51 | 自定义配方类型（原“补充S1”） | [→](https://beishanair.github.io/2026/05/22/120/recipeType/) |
-| 52 | REI物品管理器（原“补充S2”） | [→](https://beishanair.github.io/2026/05/26/120/rei/) |
+| 52 | REI（原“补充S2”） | [→](https://beishanair.github.io/2026/05/26/120/rei/) |
 | 53 | 网络包初步 | [→](https://beishanair.github.io/2026/07/07/120/53network/) |
 | 54 | 精炼炉 | [→](https://beishanair.github.io/2026/07/07/120/54refining/) |
 | 55 | 罐装机 | [→](https://beishanair.github.io/2026/07/07/120/55filling/) |
@@ -153,29 +153,29 @@ metadata:
 |---|------|------|
 | 1 | 开发环境配置 | [→](https://beishanair.github.io/2024/07/23/121/start121/) |
 | 2 | 第一个物品 | [→](https://beishanair.github.io/2024/09/01/121/item121/) |
-| 2-1 | 关于1.21.2中物品注册 | [→](https://beishanair.github.io/2025/08/02/121/item1212/) |
-| 3 | 创造模式物品栏 | [→](https://beishanair.github.io/2024/09/07/121/itemgroup121/) |
+| 2-1 | 关于1.21.2中物品的注册 | [→](https://beishanair.github.io/2025/08/02/121/item1212/) |
+| 3 | 物品栏 | [→](https://beishanair.github.io/2024/09/07/121/itemgroup121/) |
 | 4 | 第一个方块 | [→](https://beishanair.github.io/2024/09/08/121/block121/) |
 | 5 | 战利品列表 | [→](https://beishanair.github.io/2024/09/15/121/loottable121/) |
 | 6 | 配方 | [→](https://beishanair.github.io/2024/09/18/121/recipe121/) |
 | 7 | 数据生成 | [→](https://beishanair.github.io/2024/09/19/121/datagen121/) |
 | 8 | 食物 | [→](https://beishanair.github.io/2024/09/22/121/food121/) |
 | 9 | Mixin | [→](https://beishanair.github.io/2024/09/23/121/mixin121/) |
-| 10 | 燃料 | [→](https://beishanair.github.io/2024/09/25/121/fuelItem121/) |
+| 10 | 燃烧物 | [→](https://beishanair.github.io/2024/09/25/121/fuelItem121/) |
 | 11 | 探矿器（进阶物品） | [→](https://beishanair.github.io/2024/09/26/121/prospector121/) |
 | 12 | Tag | [→](https://beishanair.github.io/2024/09/27/121/tag121/) |
-| 13 | 工具信息 | [→](https://beishanair.github.io/2024/09/29/121/tooltip121/) |
-| 14 | 2D → 3D（Mixin案例） | [→](https://beishanair.github.io/2024/10/08/121/2d3d121/) |
-| 15 | 建材类方块 | [→](https://beishanair.github.io/2024/10/09/121/buildingblocks121/) |
-| 15-1 | 渲染层设置 | [→](https://beishanair.github.io/2024/10/10/121/renderer121/) |
+| 13 | 提示信息 | [→](https://beishanair.github.io/2024/09/29/121/tooltip121/) |
+| 14 | 2D -> 3D（Mixin） | [→](https://beishanair.github.io/2024/10/08/121/2d3d121/) |
+| 15 | 建筑类方块 | [→](https://beishanair.github.io/2024/10/09/121/buildingblocks121/) |
+| 15-1 | 特殊渲染 | [→](https://beishanair.github.io/2024/10/10/121/renderer121/) |
 | 16 | 自定义工具 | [→](https://beishanair.github.io/2024/10/11/121/tool121/) |
-| 17 | 盔甲 | [→](https://beishanair.github.io/2024/10/12/121/armor121/) |
-| 18 | 全套盔甲增益效果 | [→](https://beishanair.github.io/2024/10/13/121/armoreffect121/) |
+| 17 | 自定义盔甲 | [→](https://beishanair.github.io/2024/10/12/121/armor121/) |
+| 18 | 全套盔甲效果 | [→](https://beishanair.github.io/2024/10/13/121/armoreffect121/) |
 | 19 | 头饰（盔甲衍生案例） | [→](https://beishanair.github.io/2024/10/14/121/hat121/) |
 | 20 | 作物 | [→](https://beishanair.github.io/2024/10/15/121/crop121/) |
 | 21 | 多方块作物 | [→](https://beishanair.github.io/2024/10/16/121/doublecrop121/) |
-| 22 | 战利品列表修改（非数据包） | [→](https://beishanair.github.io/2024/10/17/121/modifyloottable121/) |
-| 23 | 自定义村民交易 | [→](https://beishanair.github.io/2024/10/18/121/trade121/) |
+| 22 | 修改战利品列表（非数据包） | [→](https://beishanair.github.io/2024/10/17/121/modifyloottable121/) |
+| 23 | 自定义交易 | [→](https://beishanair.github.io/2024/10/18/121/trade121/) |
 | 24 | 自定义村民 | [→](https://beishanair.github.io/2024/10/19/121/villager121/) |
 | 25 | 自定义声音 | [→](https://beishanair.github.io/2024/10/20/121/sound121/) |
 | 26 | 音乐唱片 | [→](https://beishanair.github.io/2024/10/21/121/musicdisc121/) |
@@ -183,10 +183,10 @@ metadata:
 | 28 | 马铠 | [→](https://beishanair.github.io/2024/10/23/121/horsearmor121/) |
 | 29 | 箱子（方块实体） | [→](https://beishanair.github.io/2024/10/24/121/box121/) |
 | 30 | Jar构建 | [→](https://beishanair.github.io/2024/10/25/121/jar121/) |
-| 31 | 打磨机（方块实体） | [→](https://beishanair.github.io/2024/10/26/121/polishingmachine121/) |
+| 31 | 方块实体2 | [→](https://beishanair.github.io/2024/10/26/121/polishingmachine121/) |
 | 32 | 自定义配方类型 | [→](https://beishanair.github.io/2024/10/27/121/recipetype121/) |
-| 33 | REI物品管理器 | [→](https://beishanair.github.io/2024/10/28/121/rei121/) |
-| 34 | Blockbench 物品/方块 | [→](https://beishanair.github.io/2024/10/29/121/customitemblock121/) |
+| 33 | REI | [→](https://beishanair.github.io/2024/10/28/121/rei121/) |
+| 34 | 自定义物品和方块 | [→](https://beishanair.github.io/2024/10/29/121/customitemblock121/) |
 | 35 | 方块朝向（方块状态） | [→](https://beishanair.github.io/2024/10/30/121/facing121/) |
 | 36 | 可连接方块 | [→](https://beishanair.github.io/2024/10/31/121/connectable121/) |
 | 37 | 木头 | [→](https://beishanair.github.io/2024/11/01/121/wood121/) |
@@ -194,18 +194,18 @@ metadata:
 | 39 | 船 | [→](https://beishanair.github.io/2024/11/10/121/boat121/) |
 | 40 | 树 | [→](https://beishanair.github.io/2024/11/11/121/tree121/) |
 | 41 | 树的世界生成 | [→](https://beishanair.github.io/2024/11/11/121/treegen121/) |
-| 42 | 花和盆栽花 | [→](https://beishanair.github.io/2024/11/12/121/flower121/) |
+| 42 | 花 & 盆栽花 | [→](https://beishanair.github.io/2024/11/12/121/flower121/) |
 | 43 | 花的世界生成 | [→](https://beishanair.github.io/2024/11/12/121/flowergen121/) |
 | 44 | 矿物的世界生成 | [→](https://beishanair.github.io/2024/11/14/121/oregen121/) |
-| 45 | 耐久合成 | [→](https://beishanair.github.io/2024/11/14/121/reciperemainder121/) |
-| 46 | 锻造台耐久合成（Mixin案例） | [→](https://beishanair.github.io/2024/11/15/121/smithingtransf121/) |
+| 45 | 耐久合成（配方剩余） | [→](https://beishanair.github.io/2024/11/14/121/reciperemainder121/) |
+| 46 | 锻造台耐久合成（Mixin） | [→](https://beishanair.github.io/2024/11/15/121/smithingtransf121/) |
 | 47 | 生物实体 | [→](https://beishanair.github.io/2024/11/15/121/entity121/) |
 | 48 | 生物实体动画 | [→](https://beishanair.github.io/2024/11/16/121/entityani121/) |
 | 49 | 攻击型生物实体 | [→](https://beishanair.github.io/2024/11/16/121/attackentity121/) |
-| 50 | 自定义生物群系 | [→](https://beishanair.github.io/2024/11/16/121/biome121/) |
+| 50 | 生物群系 | [→](https://beishanair.github.io/2024/11/16/121/biome121/) |
 | 51 | 自定义粒子 | [→](https://beishanair.github.io/2024/11/16/121/particle121/) |
 | 52 | 自定义结构 | [→](https://beishanair.github.io/2024/11/16/121/structure121/) |
-| 53 | 维度和传送门 | [→](https://beishanair.github.io/2024/11/16/121/dim121/) |
+| 53 | 维度&传送门 | [→](https://beishanair.github.io/2024/11/16/121/dim121/) |
 | 55 | 附魔 | [→](https://beishanair.github.io/2025/08/01/121/enchantment/) |
 | 56 | 升级到1.21.2 | [→](https://beishanair.github.io/2025/08/01/121/update1212/) |
 
@@ -227,7 +227,7 @@ metadata:
 | 8 | 食物 | [→](https://beishanair.github.io/2025/11/18/f120/food/) |
 | 9 | 燃料 | [→](https://beishanair.github.io/2025/11/18/f120/fuel/) |
 | 10 | 探矿器 | [→](https://beishanair.github.io/2025/11/20/f120/prospector/) |
-| 11 | Tag | [→](https://beishanair.github.io/2025/11/20/f120/tag/) |
+| 11 | Tags | [→](https://beishanair.github.io/2025/11/20/f120/tag/) |
 | 12 | Jar打包 | [→](https://beishanair.github.io/2025/11/20/f120/jar/) |
 | 13 | 建材类方块 | [→](https://beishanair.github.io/2026/04/27/f120/buildingblock/) |
 | 14 | 工具 | [→](https://beishanair.github.io/2026/04/27/f120/tool/) |
@@ -247,7 +247,7 @@ metadata:
 | 34 | 木头 | [→](https://beishanair.github.io/2026/06/30/f120/wood/) |
 | 35 | 树 | [→](https://beishanair.github.io/2026/06/30/f120/tree/) |
 | 36 | 树的世界生成 | [→](https://beishanair.github.io/2026/07/01/f120/treegen/) |
-| 37 | 花和盆栽花 | [→](https://beishanair.github.io/2026/07/01/f120/flower/) |
+| 37 | 花 & 盆栽花 | [→](https://beishanair.github.io/2026/07/01/f120/flower/) |
 | 38 | 花的世界生成 | [→](https://beishanair.github.io/2026/07/01/f120/flowergen/) |
 | 39 | 矿物的世界生成 | [→](https://beishanair.github.io/2026/07/01/f120/oregen/) |
 | 40 | 告示牌 | [→](https://beishanair.github.io/2026/07/01/f120/sign/) |
@@ -274,9 +274,9 @@ metadata:
 | 8 | 食物 | [→](https://beishanair.github.io/2025/11/18/nf121/food/) |
 | 9 | 燃料 | [→](https://beishanair.github.io/2025/11/18/nf121/fuel/) |
 | 10 | 探矿器 | [→](https://beishanair.github.io/2025/11/20/nf121/prospector/) |
-| 11 | Tag | [→](https://beishanair.github.io/2025/11/20/nf121/tag/) |
+| 11 | Tags | [→](https://beishanair.github.io/2025/11/20/nf121/tag/) |
 | 12 | Jar打包 | [→](https://beishanair.github.io/2025/11/20/nf121/jar/) |
-| 25 | Blockbench 模型 | [→](https://beishanair.github.io/2026/07/09/nf121/25blockbench/) |
+| 25 | Blockbench模型 | [→](https://beishanair.github.io/2026/07/09/nf121/25blockbench/) |
 | 26 | 方块朝向 | [→](https://beishanair.github.io/2026/07/09/nf121/26facing/) |
 | 27 | 沙发类方块 | [→](https://beishanair.github.io/2026/07/09/nf121/27sofa/) |
 | 28 | 座椅 | [→](https://beishanair.github.io/2026/08/09/nf121/28seat/) |
@@ -288,7 +288,7 @@ metadata:
 | 34 | 木头 | [→](https://beishanair.github.io/2026/08/15/nf121/34wood/) |
 | 35 | 树 | [→](https://beishanair.github.io/2026/08/15/nf121/35tree/) |
 | 36 | 树的世界生成 | [→](https://beishanair.github.io/2026/08/15/nf121/36treegen/) |
-| 37 | 花和盆栽花 | [→](https://beishanair.github.io/2026/08/15/nf121/37flower/) |
+| 37 | 花 & 盆栽花 | [→](https://beishanair.github.io/2026/08/15/nf121/37flower/) |
 | 38 | 花的世界生成 | [→](https://beishanair.github.io/2026/08/15/nf121/38flowergen/) |
 | 39 | 矿物的世界生成（站点标题误标为1.20.1，实为1.21.1） | [→](https://beishanair.github.io/2026/08/15/nf121/39oregen/) |
 | 40 | 告示牌 | [→](https://beishanair.github.io/2026/08/15/nf121/40sign/) |
@@ -354,4 +354,4 @@ metadata:
 - 教程总汇页面: https://beishanair.github.io/2099/12/31/sum/
 
 > ℹ️ 提示：站点自带的「教程总汇」页面（sum）部分章节列表更新滞后（如 26.1 与粒子部分仍显示“等待开行”、NeoForge 只列到 #12），
-> 以上表格已按站点实际发布的文章核对（2026-08-17），并以实际文章为准。
+> 以上表格已按站点实际发布的文章核对（2026-10-03），并以实际文章为准。

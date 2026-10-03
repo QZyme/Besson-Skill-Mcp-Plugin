@@ -2,7 +2,7 @@
 
 > 根据北山Besson教程「开发环境配置」章节整理
 >
-> **社区核实（2026-08-17，Mojang 官方版本清单 `javaVersion` 字段）：**
+> **社区核实（2026-10-03，Mojang 官方版本清单 `javaVersion` 字段）：**
 > 1.20.1 → Java 17（java-runtime-gamma）· 1.21/1.21.1 → Java 21（java-runtime-delta）· 26.1 → **Java 25**（java-runtime-epsilon）
 
 ## 各系列技术栈
@@ -48,7 +48,7 @@
 - 与 Forge 共享类似的运作逻辑（Patch + 独立注册系统）
 - 有自己的独立注册系统
 
-## 生态现状快照（2026-08-17 核实）
+## 生态现状快照（2026-10-03 核实）
 
 - 当前 MC 最新正式版：**26.2**（26.1.1 / 26.1.2 已发布，26.3 快照开发中）
 - Fabric Loader 当前稳定版：**0.19.3**（meta.fabricmc.net）

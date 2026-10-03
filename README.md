@@ -7,7 +7,7 @@
 
 > 北山Besson（BeiShan_Besson）Minecraft 模组开发教程站 [Tomorrow-Land](https://beishanair.github.io/) 的检索体系：
 > **DSH 技能（skill）· MCP 服务器（mcp）· DSH 插件（plugin）** 三件套
-> 数据同步日期：**2026-08-17**（站点文章 195 篇全覆盖）
+> 数据同步日期：**2026-10-03**（站点文章 195 篇全覆盖）
 > 站点：https://beishanair.github.io/ · 作者 B站：[@北山Besson](https://space.bilibili.com/489671468) · GitHub：[BeiShanair](https://github.com/BeiShanair)
 
 ## 目录结构
